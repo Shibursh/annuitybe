@@ -44,16 +44,16 @@
 			<version>${springframework.version}</version>
 		</dependency>
 
-		<!-- Spring Data JPA start-->
+		<!-- Spring Data JPA start -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 			<version>${spring.data.jpa.version}</version>
 		</dependency>
-		<!-- Spring Data JPA end-->
-		
+		<!-- Spring Data JPA end -->
+
 		<!-- Spring end -->
-		
+
 		<!-- Hibernate Start -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -61,17 +61,21 @@
 			<version>3.4.0.GA</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>5.1.3.Final</version>
-		</dependency>
-		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<version>1.0.1.Final</version>
 		</dependency>
 		<!-- Hibernate end -->
-		
+
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.4.2</version>
+			<scope>test</scope>
+		</dependency>
+
+
 		<!-- Servlet start -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -79,7 +83,7 @@
 			<version>3.0.1</version>
 		</dependency>
 		<!-- Servlet end -->
-		
+
 		<!-- JSON to HTTP start -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -87,7 +91,7 @@
 			<version>${jackson.library}</version>
 		</dependency>
 		<!-- JSON to HTTP end -->
-		
+
 		<!-- Oracle JDBC start -->
 		<dependency>
 			<groupId>com</groupId>

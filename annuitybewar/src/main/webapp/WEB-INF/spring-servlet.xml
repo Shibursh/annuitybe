@@ -2,44 +2,63 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-	<context:annotation-config/>
+	<context:annotation-config />
 	<context:component-scan base-package="com.axa.annuityinfo" />
+
+	<mvc:annotation-driven />
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
 	<!-- Getting Database properties -->
 	<context:property-placeholder location="classpath:application.properties" />
 
+
 	<!-- Specifying the Resource location to load JS, CSS, Images etc -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<!-- <tx:jta-transaction-manager/> -->
+
 	<!-- View Resolver -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/pages/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<tx:jta-transaction-manager />
+
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/annuityPilotDb" resource-ref="true" />
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="packagesToScan" value="com.axa.annuityinfo.model" />
 		<property name="persistenceUnitName" value="persistenceUnit" />
+		<property name="dataSource" ref="dataSource" />
+		<!-- <property name="packagesToScan" value="com.axa.annuityinfo.model" 
+			/> -->
+
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.WebSphereExtendedJTATransactionLookup
+				</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			</props>
+		</property>
+		<property name="loadTimeWeaver">
+			<bean
+				class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+		</property>
 	</bean>
-
-	<!-- Configure the transaction manager bean -->
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
-
-	<mvc:annotation-driven />
-	
-	<tx:annotation-driven transaction-manager="transactionManager" />
-	
-	
-	<!-- <jpa:repositories base-package="com.axa.annuityinfo.repository" /> -->
-	<!-- <bean class="com.axa.annuityinfo.dao.AnnuityInfoDao" id="annuityInfoDao" /> -->
-
 </beans>
