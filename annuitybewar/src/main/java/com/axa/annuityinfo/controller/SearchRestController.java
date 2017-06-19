@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.axa.annuityinfo.dao.AnnuityInfoDao;
@@ -19,7 +20,7 @@ public class SearchRestController {
 	@Autowired
 	AnnuityInfoDao annuityInfoDao;
 
-	@RequestMapping("/search")
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<AnnuityInfo>> listUsers() {
 
@@ -30,7 +31,7 @@ public class SearchRestController {
 		return new ResponseEntity<List<AnnuityInfo>>(annuityInfo, HttpStatus.OK);
 	}
 
-	@RequestMapping("/search/{policyNo}")
+	@RequestMapping(value = "/search/{policyNo}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<AnnuityInfo> getAnnuityInfoByPolicyNo(@PathVariable("policyNo") String policyNo) {
 
